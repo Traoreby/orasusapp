@@ -437,8 +437,8 @@ const getStyles = (colors: any) => StyleSheet.create({
   legendDot: { width: 10, height: 10, borderRadius: 5, marginRight: 6 },
   legendText: { fontSize: typography.sizes.xs, color: colors.textSecondary },
   
-  finGrid: { flexDirection: 'row', gap: spacing.sm, marginTop: spacing.md },
-  finBox: { flex: 1, padding: spacing.md, borderRadius: radius.md, borderWidth: 1 },
+  finGrid: { flexDirection: 'row', flexWrap: 'wrap', gap: spacing.sm, marginTop: spacing.md },
+  finBox: { flex: 1, minWidth: 120, padding: spacing.md, borderRadius: radius.md, borderWidth: 1 },
   finBoxSuccess: { backgroundColor: 'rgba(34,197,94,0.1)', borderColor: 'rgba(34,197,94,0.2)' },
   finBoxDanger: { backgroundColor: 'rgba(239,68,68,0.1)', borderColor: 'rgba(239,68,68,0.2)' },
   finBoxLabel: { fontSize: typography.sizes.xs, color: colors.textSecondary, marginBottom: spacing.xs, textTransform: 'uppercase' },

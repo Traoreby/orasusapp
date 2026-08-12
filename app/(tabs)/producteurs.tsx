@@ -1,5 +1,5 @@
 import React, { useState, useMemo } from 'react';
-import { View, Text, StyleSheet, FlatList, TouchableOpacity, ScrollView, Dimensions, Platform } from 'react-native';
+import { View, Text, StyleSheet, FlatList, TouchableOpacity, ScrollView, Platform, useWindowDimensions } from 'react-native';
 import { useRouter } from 'expo-router';
 import { useProducteurStore } from '../../src/core/store/useProducteurStore';
 import { ProducteurCard } from '../../src/components/producteurs/ProducteurCard';
@@ -18,8 +18,9 @@ export default function ProducteursScreen() {
   const router = useRouter();
   const { producteurs, deleteProducteur } = useProducteurStore();
   const flatListRef = React.useRef<FlatList>(null);
-  const screenWidth = Dimensions.get('window').width;
-  const isLargeScreen = screenWidth > 768;
+  const { width: screenWidth } = useWindowDimensions();
+  const isLargeScreen = Platform.OS === 'web' && screenWidth > 768;
+  const isMobile = screenWidth < 768;
   
   const [search, setSearch] = useState('');
   const [filterRegion, setFilterRegion] = useState('');
@@ -107,9 +108,9 @@ export default function ProducteursScreen() {
 
   const renderHeader = () => (
     <>
-      <Animated.View entering={FadeInDown.duration(400)} style={styles.header}>
-        <View style={styles.headerLeft}>
-          <Text style={styles.title}>Gestion des producteurs</Text>
+      <Animated.View entering={FadeInDown.duration(400)} style={[styles.header, isMobile && { flexDirection: 'column', alignItems: 'flex-start', gap: 16 }]}>
+        <View style={[styles.headerLeft, isMobile && { flex: undefined, width: '100%' }]}>
+          <Text style={[styles.title, isMobile && { flexWrap: 'wrap' }]}>Gestion des producteurs</Text>
           <Text style={styles.subtitle}>
             {producteurs.length} producteurs trouvés
           </Text>
@@ -118,6 +119,7 @@ export default function ProducteursScreen() {
           title="Ajouter un producteur"
           icon={<Plus size={18} color="#fff" />} 
           onPress={handleNew} 
+          style={isMobile ? { width: '100%' } : {}}
         />
       </Animated.View>
 

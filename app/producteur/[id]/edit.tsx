@@ -7,6 +7,8 @@ import { Producteur } from '../../../src/core/types/producteur';
 import { typography, spacing } from '../../../src/theme';
 import { ErrorState } from '../../../src/components/ui';
 import { useTheme } from "../../../src/hooks/useTheme";
+import { ChevronLeft } from 'lucide-react-native';
+import { Pressable } from 'react-native';
 
 export default function EditProducteurScreen() {
 
@@ -49,6 +51,8 @@ export default function EditProducteurScreen() {
   return (
     <SafeAreaView style={styles.safeArea}>
       <Stack.Screen options={{ headerShown: false }} />
+      
+      {/* Le bouton retour est désormais géré dans le header de ProducteurForm */}
       <View style={styles.container}>
         <ProducteurForm 
           initialData={producteur} 

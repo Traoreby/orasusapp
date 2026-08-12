@@ -1,16 +1,18 @@
 import React from 'react';
-import { View, Text, Platform } from 'react-native';
+import { View, Text, Platform, ScrollView } from 'react-native';
 
 export interface RigidTableProps {
   headers: { label: string; subLabel?: string; width: string }[];
   subHeaders?: { label: string; width: string; parentIndex: number }[];
   data: any[];
   renderRow: (item: any, index: number) => React.ReactNode;
+  minWidth?: number;
 }
 
-export const RigidTable = ({ headers, subHeaders, data, renderRow }: RigidTableProps) => {
+export const RigidTable = ({ headers, subHeaders, data, renderRow, minWidth = 900 }: RigidTableProps) => {
   return (
-    <View style={{ width: '100%', borderWidth: 1, borderColor: '#2a2a2a', borderRadius: 0, overflow: 'hidden', boxSizing: 'border-box' as any, marginBottom: 16 }}>
+    <ScrollView horizontal showsHorizontalScrollIndicator={true} style={{ width: '100%', marginBottom: 16 }}>
+      <View style={{ minWidth: minWidth, borderWidth: 1, borderColor: '#2a2a2a', borderRadius: 0, overflow: 'hidden', boxSizing: 'border-box' as any }}>
       
       {/* Header */}
       <View style={{ flexDirection: 'row', backgroundColor: '#000', borderBottomWidth: 1, borderBottomColor: '#2a2a2a' }}>
@@ -50,6 +52,7 @@ export const RigidTable = ({ headers, subHeaders, data, renderRow }: RigidTableP
           {renderRow(item, index)}
         </View>
       ))}
-    </View>
+      </View>
+    </ScrollView>
   );
 };

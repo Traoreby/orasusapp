@@ -9,7 +9,7 @@ import { spacing, typography, radius } from '../../theme';
 import { useTheme } from '../../hooks/useTheme';
 import { FICHE1_FIELDS } from '../../constants/fiche1Fields';
 import { REGIONS, DEPARTEMENTS, ENTITES, STATUT_FAMILLE, STATUT_PLANTATION, STATUT_SCOLAIRE, NIVEAU_INSTRUCTION, CATEGORIE_ETHNIQUE } from '../../constants/data';
-import { User, MapPin, Sprout, TrendingUp, AlertTriangle, Calendar, Banknote, Trash2, Save, Star, Check, Plus , Eye, Printer} from 'lucide-react-native';
+import { User, MapPin, Sprout, TrendingUp, AlertTriangle, Calendar, Banknote, Trash2, Save, Star, Check, Plus , Eye, Printer, ChevronLeft } from 'lucide-react-native';
 
 interface ProducteurFormProps {
   initialData: Producteur;
@@ -151,7 +151,7 @@ const PERIODE_COLORS: { color: string; label: string }[] = [
   { color: '#eab308', label: 'Récolte / Autre' },
 ];
 
-export const ProducteurForm = React.forwardRef<any, ProducteurFormProps>(({
+export const ProducteurForm = React.forwardRef(({
   initialData,
   onSubmit,
   onCancel,
@@ -162,7 +162,7 @@ export const ProducteurForm = React.forwardRef<any, ProducteurFormProps>(({
   onPreview,
   onChangeProducteur,
   savingState = 'idle'
-}, ref) => {
+}: ProducteurFormProps, ref: any) => {
   const { colors } = useTheme();
   const styles = React.useMemo(() => getStyles(colors), [colors]);
   const [data, setData] = useState<Producteur>(initialData);
@@ -388,8 +388,8 @@ export const ProducteurForm = React.forwardRef<any, ProducteurFormProps>(({
           <Text style={styles.sousSectionTitle}>Sous-section 2 : Information sur le ménage</Text>
         </View>
         
-                <View style={{ width: '100%', overflow: 'hidden' }}>
-          <View style={[styles.tableContainer, { flexDirection: 'column', width: '100%', minWidth: '100%' }]}>
+                <ScrollView horizontal showsHorizontalScrollIndicator={true} style={{ width: '100%' }}>
+          <View style={[styles.tableContainer, { flexDirection: 'column', minWidth: 1200 }]}>
             <View style={styles.tableHeader}>
               <Text style={[styles.tableCell, styles.tableHeaderCell, { width: '16%', fontSize: 12, paddingVertical: 8, paddingHorizontal: 6, boxSizing: 'border-box' }]}>Nom</Text>
               <Text style={[styles.tableCell, styles.tableHeaderCell, { width: '11%', fontSize: 12, paddingVertical: 8, paddingHorizontal: 6, boxSizing: 'border-box' }]}>Statut/Famille¹</Text>
@@ -440,7 +440,7 @@ export const ProducteurForm = React.forwardRef<any, ProducteurFormProps>(({
             </View>
           ))}
           </View>
-        </View>
+        </ScrollView>
         <Pressable 
           onPress={() => update('menage', [...(data.menage || []), { nom:'', statutFamille:'', statutPlantation:'', statutScolaire:'', contact:'', anneeNaissance:'', sexe:'', niveauInstruction:'', categorieEthnique:'' }])}
           style={({ pressed }) => [styles.addMemberBtn, pressed && { backgroundColor: 'rgba(22, 163, 74, 0.25)' }]}
@@ -517,36 +517,35 @@ export const ProducteurForm = React.forwardRef<any, ProducteurFormProps>(({
             <Text style={styles.sousSectionTitle}>◆ Coordonnées Géographiques de la cacaoyère</Text>
           </View>
           <View style={[styles.tableContainer, { flexDirection: 'column', minWidth: '100%', paddingHorizontal: spacing.xl, paddingVertical: spacing.lg, gap: spacing.lg, backgroundColor: '#0a0a0a', borderColor: '#2a2a2a', borderWidth: 1, borderRadius: 8 }]}>
-            <View style={{ flexDirection: 'row', alignItems: 'center' }}>
-              <Text style={{ color: '#fff', fontSize: 13, fontWeight: 'bold', width: 90 }}>Waypoints</Text>
-              <View style={{ flexDirection: 'row', alignItems: 'center', marginRight: spacing.xl, flex: 1 }}>
-                <Text style={{ color: colors.textSecondary, fontSize: 13, marginRight: spacing.sm }}>O :</Text>
+            <View style={{ flexDirection: 'column', gap: spacing.md }}>
+              <View style={{ flexDirection: 'row', alignItems: 'center' }}>
+                <Text style={{ color: '#fff', fontSize: 13, fontWeight: 'bold', minWidth: 130 }}>Waypoints O :</Text>
                 <View style={{ flex: 1 }}>
                   <TextInput value={data.coordonnees?.waypointO} onChangeText={v => updateNested('coordonnees.waypointO', v)} compact placeholder="Saisir" />
                 </View>
               </View>
-              <View style={{ flexDirection: 'row', alignItems: 'center', flex: 1 }}>
-                <Text style={{ color: colors.textSecondary, fontSize: 13, marginRight: spacing.sm }}>N :</Text>
+              <View style={{ flexDirection: 'row', alignItems: 'center' }}>
+                <Text style={{ color: '#fff', fontSize: 13, fontWeight: 'bold', minWidth: 130 }}>Waypoints N :</Text>
                 <View style={{ flex: 1 }}>
                   <TextInput value={data.coordonnees?.waypointN} onChangeText={v => updateNested('coordonnees.waypointN', v)} compact placeholder="Saisir" />
                 </View>
               </View>
             </View>
-            <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', gap: spacing.md }}>
-              <View style={{ flexDirection: 'row', alignItems: 'center', flex: 1 }}>
-                <Text style={{ color: colors.textSecondary, fontSize: 13, marginRight: spacing.sm }}>Sous/préfecture :</Text>
+            <View style={{ flexDirection: 'column', gap: spacing.md }}>
+              <View style={{ flexDirection: 'row', alignItems: 'center' }}>
+                <Text style={{ color: colors.textSecondary, fontSize: 13, marginRight: spacing.sm, minWidth: 130 }}>Sous/préfecture :</Text>
                 <View style={{ flex: 1 }}>
                   <TextInput value={data.coordonnees?.sousPrefecture} onChangeText={v => updateNested('coordonnees.sousPrefecture', v)} compact placeholder="Saisir" />
                 </View>
               </View>
-              <View style={{ flexDirection: 'row', alignItems: 'center', flex: 1 }}>
-                <Text style={{ color: colors.textSecondary, fontSize: 13, marginRight: spacing.sm }}>Village :</Text>
+              <View style={{ flexDirection: 'row', alignItems: 'center' }}>
+                <Text style={{ color: colors.textSecondary, fontSize: 13, marginRight: spacing.sm, minWidth: 130 }}>Village :</Text>
                 <View style={{ flex: 1 }}>
                   <TextInput value={data.coordonnees?.village} onChangeText={v => updateNested('coordonnees.village', v)} compact placeholder="Saisir" />
                 </View>
               </View>
-              <View style={{ flexDirection: 'row', alignItems: 'center', flex: 1 }}>
-                <Text style={{ color: colors.textSecondary, fontSize: 13, marginRight: spacing.sm }}>Campement :</Text>
+              <View style={{ flexDirection: 'row', alignItems: 'center' }}>
+                <Text style={{ color: colors.textSecondary, fontSize: 13, marginRight: spacing.sm, minWidth: 130 }}>Campement :</Text>
                 <View style={{ flex: 1 }}>
                   <TextInput value={data.coordonnees?.campement} onChangeText={v => updateNested('coordonnees.campement', v)} compact placeholder="Saisir" />
                 </View>
@@ -560,10 +559,10 @@ export const ProducteurForm = React.forwardRef<any, ProducteurFormProps>(({
           <View style={styles.sousSectionHeaderRow}>
             <Text style={styles.sousSectionTitle}>◆ Données sur les cultures</Text>
           </View>
-          <ScrollView horizontal showsHorizontalScrollIndicator={false} style={styles.tableScroll} contentContainerStyle={{ minWidth: '100%' }}>
-            <View style={[styles.tableContainer, { flexDirection: 'column', width: '100%', minWidth: 600, backgroundColor: '#000', borderColor: '#2a2a2a', borderWidth: 1, borderRadius: 8, overflow: 'hidden' }]}>
+          <ScrollView horizontal showsHorizontalScrollIndicator={true} style={styles.tableScroll}>
+            <View style={[styles.tableContainer, { flexDirection: 'column', minWidth: 900, backgroundColor: '#000', borderColor: '#2a2a2a', borderWidth: 1, borderRadius: 8, overflow: 'hidden' }]}>
               {/* Header */}
-              <View style={[styles.tableHeader, rowBorder, { width: '100%', minWidth: 600, backgroundColor: '#000' }]}>
+              <View style={[styles.tableHeader, rowBorder, { minWidth: 900, backgroundColor: '#000' }]}>
                 <View style={{ flexDirection: 'row', width: '100%' }}>
                   <View style={[styles.tableCell, cellBorder, { flex: 1.5, minWidth: 80, height: 60, justifyContent: 'center', alignItems: 'center' }]}><Text style={{ fontSize: 12, fontWeight: 'bold', color: '#fff', textAlign: 'center' }}>Libellé</Text></View>
                   <View style={[styles.tableCell, cellBorder, { flex: 1.2, minWidth: 100, height: 60, justifyContent: 'center', alignItems: 'center' }]}><Text style={{ fontSize: 12, fontWeight: 'bold', color: '#fff', textAlign: 'center' }}>Année de création</Text></View>
@@ -643,10 +642,10 @@ export const ProducteurForm = React.forwardRef<any, ProducteurFormProps>(({
           <View style={styles.sousSectionHeaderRow}>
             <Text style={styles.sousSectionTitle}>◆ Matériels agricoles/Equipements de travail (mettre dans l'ordre)</Text>
           </View>
-          <ScrollView horizontal showsHorizontalScrollIndicator={false} style={styles.tableScroll} contentContainerStyle={{ minWidth: '100%' }}>
-            <View style={[styles.tableContainer, { flexDirection: 'column', width: '100%', minWidth: 700, backgroundColor: '#000', borderColor: '#2a2a2a', borderWidth: 1, borderRadius: 8, overflow: 'hidden' }]}>
+          <ScrollView horizontal showsHorizontalScrollIndicator={true} style={styles.tableScroll}>
+            <View style={[styles.tableContainer, { flexDirection: 'column', minWidth: 900, backgroundColor: '#000', borderColor: '#2a2a2a', borderWidth: 1, borderRadius: 8, overflow: 'hidden' }]}>
               {/* Header */}
-              <View style={[styles.tableHeader, rowBorder, { width: '100%', minWidth: 700, backgroundColor: '#000' }]}>
+              <View style={[styles.tableHeader, rowBorder, { minWidth: 900, backgroundColor: '#000' }]}>
                 <View style={{ flexDirection: 'row', width: '100%' }}>
                   {/* Left Column Fixed Width */}
                   <View style={[styles.tableCell, cellBorder, { width: 160, height: 48, justifyContent: 'center', alignItems: 'center' }]}><Text style={{ fontSize: 12, fontWeight: 'bold', color: '#fff', textAlign: 'center' }}>Type</Text></View>
@@ -862,9 +861,10 @@ export const ProducteurForm = React.forwardRef<any, ProducteurFormProps>(({
         <View style={{
           flexDirection: Platform.OS === 'web' && Dimensions.get('window').width > 768 ? 'row' : 'column',
           gap: 16,
+          width: '100%',
         }}>
           {/* Colonne gauche */}
-          <View style={{ flex: 1, gap: 16 }}>
+          <View style={{ flex: 1, gap: 16, width: '100%' }}>
             <CacaoAppSelect 
               label="Dispositif de plantation" 
               value={data.cacaoyere?.dispositif} 
@@ -891,7 +891,7 @@ export const ProducteurForm = React.forwardRef<any, ProducteurFormProps>(({
           </View>
 
           {/* Colonne droite */}
-          <View style={{ flex: 1, gap: 16 }}>
+          <View style={{ flex: 1, gap: 16, width: '100%' }}>
             <CacaoAppInput 
               label="Densité des arbres" 
               value={data.cacaoyere?.densite} 
@@ -915,7 +915,8 @@ export const ProducteurForm = React.forwardRef<any, ProducteurFormProps>(({
       </View>
       
       {/* ── Tableau Maladies/Ravageurs & Paramètres ── */}
-      <View style={{ width: '100%', borderWidth: 1, borderColor: 'rgba(68, 64, 60, 0.5)', borderRadius: 12, overflow: 'hidden', marginBottom: 8 }}>
+      <ScrollView horizontal showsHorizontalScrollIndicator={true} style={{ width: '100%', marginBottom: 8 }}>
+        <View style={{ minWidth: 900, borderWidth: 1, borderColor: 'rgba(68, 64, 60, 0.5)', borderRadius: 12, overflow: 'hidden' }}>
         {/* Header */}
         <View style={{ flexDirection: 'row', backgroundColor: '#000', borderBottomWidth: 1, borderBottomColor: 'rgba(68, 64, 60, 0.5)' }}>
           {/* Bloc Gauche */}
@@ -983,7 +984,8 @@ export const ProducteurForm = React.forwardRef<any, ProducteurFormProps>(({
             </View>
           </View>
         ))}
-      </View>
+        </View>
+      </ScrollView>
       <Text style={{ fontSize: 12, color: '#a8a29e', marginBottom: 24 }}>
         * Décrire les symptômes au cas où la maladie/ <Text style={{ color: '#f87171', fontWeight: '600' }}>le</Text> ravageur n'est pas connu
       </Text>
@@ -1008,7 +1010,7 @@ export const ProducteurForm = React.forwardRef<any, ProducteurFormProps>(({
         ...(Platform.OS === 'web' ? { backdropFilter: 'blur(12px)' } as any : {})
       }}>
         <Text style={{ fontSize: 14, fontWeight: '500', color: '#d6d3d1' }}>Positionnement de la parcelle :</Text>
-        <View style={{ width: 250 }}>
+        <View style={{ flex: 1, minWidth: 250 }}>
           <CacaoAppSelect 
             value={data.positionParcelle} 
             onValueChange={(v: any) => updateNested('positionParcelle', v)} 
@@ -1018,7 +1020,8 @@ export const ProducteurForm = React.forwardRef<any, ProducteurFormProps>(({
       </View>
 
       {/* Grand Tableau État du Sol */}
-      <View style={{ width: '100%', borderWidth: 1, borderColor: 'rgba(68, 64, 60, 0.5)', borderRadius: 12, overflow: 'hidden', marginBottom: 24 }}>
+      <ScrollView horizontal showsHorizontalScrollIndicator={true} style={{ width: '100%', marginBottom: 24 }}>
+        <View style={{ minWidth: 900, borderWidth: 1, borderColor: 'rgba(68, 64, 60, 0.5)', borderRadius: 12, overflow: 'hidden' }}>
         {/* Header */}
         <View style={{ flexDirection: 'row', backgroundColor: '#000', borderBottomWidth: 1, borderBottomColor: 'rgba(68, 64, 60, 0.5)' }}>
           {/* Bloc Gauche */}
@@ -1148,7 +1151,8 @@ export const ProducteurForm = React.forwardRef<any, ProducteurFormProps>(({
             </View>
           </View>
         ))}
-      </View>
+        </View>
+      </ScrollView>
 
       {/* ── Application des engrais ── */}
       <View style={[styles.sousSectionHeaderRow, { marginTop: 16 }]}>
@@ -1260,7 +1264,8 @@ export const ProducteurForm = React.forwardRef<any, ProducteurFormProps>(({
         <Text style={styles.sousSectionTitle}>❖ Gestion des emballages</Text>
       </View>
 
-      <View style={{ width: '100%', borderWidth: 1, borderColor: 'rgba(68, 64, 60, 0.5)', borderRadius: 8, overflow: 'hidden', marginBottom: 24 }}>
+      <ScrollView horizontal showsHorizontalScrollIndicator={true} style={{ width: '100%', marginBottom: 24 }}>
+      <View style={{ minWidth: 600, borderWidth: 1, borderColor: 'rgba(68, 64, 60, 0.5)', borderRadius: 8, overflow: 'hidden' }}>
         {/* Header */}
         <View style={{ flexDirection: 'row', backgroundColor: '#000', borderBottomWidth: 1, borderBottomColor: 'rgba(68, 64, 60, 0.5)' }}>
           <View style={{ flex: 3.2, padding: 8, borderRightWidth: 1, borderRightColor: 'rgba(68, 64, 60, 0.5)', justifyContent: 'center' }}>
@@ -1304,7 +1309,8 @@ export const ProducteurForm = React.forwardRef<any, ProducteurFormProps>(({
             </View>
           </View>
         </View>
-      </View>
+        </View>
+      </ScrollView>
       
         </View>
       </View>
@@ -1409,11 +1415,12 @@ export const ProducteurForm = React.forwardRef<any, ProducteurFormProps>(({
           <Text style={{ color: '#22c55e', fontSize: 14, fontWeight: 'bold' }}>Compte d'épargne et Financement</Text>
         </View>
 
-        <View style={{ width: '100%', borderWidth: 1, borderColor: '#2a2a2a', borderRadius: 0, overflow: 'hidden', boxSizing: 'border-box' as any }}>
+        <ScrollView horizontal showsHorizontalScrollIndicator={true} style={{ width: '100%', marginBottom: 0 }}>
+        <View style={{ minWidth: 900, borderWidth: 1, borderColor: '#2a2a2a', borderRadius: 0, overflow: 'hidden', boxSizing: 'border-box' as any }}>
           
           {/* Header */}
           <View style={{ flexDirection: 'row', backgroundColor: '#000', borderBottomWidth: 1, borderBottomColor: '#2a2a2a' }}>
-            <View style={{ width: '28%', justifyContent: 'center', padding: 8, borderRightWidth: 1, borderRightColor: '#2a2a2a', boxSizing: 'border-box' as any }}>
+            <View style={{ width: '28%', minWidth: 200, justifyContent: 'center', padding: 8, borderRightWidth: 1, borderRightColor: '#2a2a2a', boxSizing: 'border-box' as any }}>
               <Text style={{ color: '#fff', fontWeight: 'bold', textAlign: 'left', fontSize: 12 }}>Epargne</Text>
             </View>
             
@@ -1518,6 +1525,7 @@ export const ProducteurForm = React.forwardRef<any, ProducteurFormProps>(({
             );
           })}
         </View>
+        </ScrollView>
       
         {/* ── Production de cacao ── */}
         <View style={{ flexDirection: 'row', alignItems: 'center', marginBottom: 16, marginTop: 32 }}>
@@ -1525,10 +1533,11 @@ export const ProducteurForm = React.forwardRef<any, ProducteurFormProps>(({
           <Text style={{ color: '#22c55e', fontSize: 14, fontWeight: 'bold' }}>Production de cacao des trois (3) dernières années</Text>
         </View>
 
-        <View style={{ width: '100%', borderWidth: 1, borderColor: '#2a2a2a', borderRadius: 0, overflow: 'hidden', boxSizing: 'border-box' as any, marginBottom: 24 }}>
+        <ScrollView horizontal showsHorizontalScrollIndicator={true} style={{ width: '100%', marginBottom: 24 }}>
+        <View style={{ minWidth: 500, borderWidth: 1, borderColor: '#2a2a2a', borderRadius: 0, overflow: 'hidden', boxSizing: 'border-box' as any }}>
           {/* Header */}
           <View style={{ flexDirection: 'row', backgroundColor: '#000', borderBottomWidth: 1, borderBottomColor: '#2a2a2a' }}>
-            <View style={{ width: '30%', padding: 12, borderRightWidth: 1, borderRightColor: '#2a2a2a', justifyContent: 'center', boxSizing: 'border-box' as any }}>
+            <View style={{ width: '30%', minWidth: 120, padding: 12, borderRightWidth: 1, borderRightColor: '#2a2a2a', justifyContent: 'center', boxSizing: 'border-box' as any }}>
               <Text style={{ color: '#fff', fontWeight: 'bold', textAlign: 'center', fontSize: 12 }}>ANNEE</Text>
             </View>
             <View style={{ width: '35%', padding: 12, borderRightWidth: 1, borderRightColor: '#2a2a2a', justifyContent: 'center', boxSizing: 'border-box' as any }}>
@@ -1568,6 +1577,7 @@ export const ProducteurForm = React.forwardRef<any, ProducteurFormProps>(({
             </View>
           ))}
         </View>
+        </ScrollView>
 
         {/* ── Sources de revenus ── */}
         <View style={{ flexDirection: 'row', alignItems: 'center', marginBottom: 16, marginTop: 16 }}>
@@ -1575,16 +1585,17 @@ export const ProducteurForm = React.forwardRef<any, ProducteurFormProps>(({
           <Text style={{ color: '#22c55e', fontSize: 14, fontWeight: 'bold' }}>Sources de revenus autres que le cacao</Text>
         </View>
 
-        <View style={{ width: '100%', borderWidth: 1, borderColor: '#2a2a2a', borderRadius: 0, overflow: 'hidden', boxSizing: 'border-box' as any, marginBottom: 16 }}>
+        <ScrollView horizontal showsHorizontalScrollIndicator={true} style={{ width: '100%', marginBottom: 16 }}>
+        <View style={{ minWidth: 600, borderWidth: 1, borderColor: '#2a2a2a', borderRadius: 0, overflow: 'hidden', boxSizing: 'border-box' as any }}>
           {/* Header */}
           <View style={{ flexDirection: 'row', backgroundColor: '#000', borderBottomWidth: 1, borderBottomColor: '#2a2a2a' }}>
-            <View style={{ width: '30%', padding: 12, borderRightWidth: 1, borderRightColor: '#2a2a2a', justifyContent: 'center', boxSizing: 'border-box' as any }}>
+            <View style={{ width: '30%', minWidth: 150, padding: 12, borderRightWidth: 1, borderRightColor: '#2a2a2a', justifyContent: 'center', boxSizing: 'border-box' as any }}>
               <Text style={{ color: '#fff', fontWeight: 'bold', textAlign: 'center', fontSize: 12 }}>ANNEE</Text>
             </View>
-            <View style={{ width: '30%', padding: 12, borderRightWidth: 1, borderRightColor: '#2a2a2a', justifyContent: 'center', boxSizing: 'border-box' as any }}>
+            <View style={{ width: '30%', minWidth: 150, padding: 12, borderRightWidth: 1, borderRightColor: '#2a2a2a', justifyContent: 'center', boxSizing: 'border-box' as any }}>
               <Text style={{ color: '#fff', fontWeight: 'bold', textAlign: 'center', fontSize: 12 }}>Production moyenne annuelle</Text>
             </View>
-            <View style={{ width: '30%', padding: 12, borderRightWidth: 1, borderRightColor: '#2a2a2a', justifyContent: 'center', boxSizing: 'border-box' as any }}>
+            <View style={{ width: '30%', minWidth: 150, padding: 12, borderRightWidth: 1, borderRightColor: '#2a2a2a', justifyContent: 'center', boxSizing: 'border-box' as any }}>
               <Text style={{ color: '#fff', fontWeight: 'bold', textAlign: 'center', fontSize: 12 }}>Revenu brut moyen/an</Text>
             </View>
             <View style={{ width: '10%', padding: 12, justifyContent: 'center', boxSizing: 'border-box' as any }}>
@@ -1594,7 +1605,7 @@ export const ProducteurForm = React.forwardRef<any, ProducteurFormProps>(({
           {/* Rows */}
           {sourcesRevenus.map((row: any, i: number) => (
             <View key={i} style={{ flexDirection: 'row', backgroundColor: 'transparent', borderTopWidth: i === 0 ? 0 : 1, borderTopColor: '#2a2a2a', boxSizing: 'border-box' as any }}>
-              <View style={{ width: '30%', padding: 12, borderRightWidth: 1, borderRightColor: '#2a2a2a', boxSizing: 'border-box' as any }}>
+              <View style={{ width: '30%', minWidth: 150, padding: 12, borderRightWidth: 1, borderRightColor: '#2a2a2a', boxSizing: 'border-box' as any }}>
                 <RNTextInput
                   value={row.activite}
                   onChangeText={(v: string) => upSrc(i, 'activite', v)}
@@ -1604,7 +1615,7 @@ export const ProducteurForm = React.forwardRef<any, ProducteurFormProps>(({
                   style={{ width: '100%', minHeight: 60, backgroundColor: '#1f1f1f', borderWidth: 1, borderColor: '#333', borderRadius: 6, paddingHorizontal: 12, paddingVertical: 10, color: '#fff', fontSize: 13, textAlignVertical: 'top', boxSizing: 'border-box' as any, ...(Platform.OS === 'web' ? { outlineStyle: 'none', resize: 'vertical' } as any : {}) }}
                 />
               </View>
-              <View style={{ width: '30%', padding: 12, borderRightWidth: 1, borderRightColor: '#2a2a2a', boxSizing: 'border-box' as any }}>
+              <View style={{ width: '30%', minWidth: 150, padding: 12, borderRightWidth: 1, borderRightColor: '#2a2a2a', boxSizing: 'border-box' as any }}>
                 <RNTextInput
                   value={row.prod}
                   onChangeText={(v: string) => upSrc(i, 'prod', v)}
@@ -1614,7 +1625,7 @@ export const ProducteurForm = React.forwardRef<any, ProducteurFormProps>(({
                   style={{ width: '100%', minHeight: 60, backgroundColor: '#1f1f1f', borderWidth: 1, borderColor: '#333', borderRadius: 6, paddingHorizontal: 12, paddingVertical: 10, color: '#fff', fontSize: 13, textAlignVertical: 'top', boxSizing: 'border-box' as any, ...(Platform.OS === 'web' ? { outlineStyle: 'none', resize: 'vertical' } as any : {}) }}
                 />
               </View>
-              <View style={{ width: '30%', padding: 12, borderRightWidth: 1, borderRightColor: '#2a2a2a', boxSizing: 'border-box' as any }}>
+              <View style={{ width: '30%', minWidth: 150, padding: 12, borderRightWidth: 1, borderRightColor: '#2a2a2a', boxSizing: 'border-box' as any }}>
                 <RNTextInput
                   value={row.revenu}
                   onChangeText={(v: string) => upSrc(i, 'revenu', v)}
@@ -1632,6 +1643,7 @@ export const ProducteurForm = React.forwardRef<any, ProducteurFormProps>(({
             </View>
           ))}
         </View>
+        </ScrollView>
 
         <Pressable 
           onPress={addSrc}
@@ -1658,7 +1670,8 @@ export const ProducteurForm = React.forwardRef<any, ProducteurFormProps>(({
           <Text style={{ color: '#22c55e', fontSize: 14, fontWeight: 'bold' }}>Dépenses courantes du foyer</Text>
         </View>
 
-        <View style={{ width: '100%', borderWidth: 1, borderColor: '#2a2a2a', borderRadius: 0, overflow: 'hidden', boxSizing: 'border-box' as any, marginBottom: 16 }}>
+        <ScrollView horizontal showsHorizontalScrollIndicator={true} style={{ width: '100%', marginBottom: 16 }}>
+        <View style={{ minWidth: 600, borderWidth: 1, borderColor: '#2a2a2a', borderRadius: 0, overflow: 'hidden', boxSizing: 'border-box' as any }}>
           {/* Header */}
           <View style={{ flexDirection: 'row', backgroundColor: '#000', borderBottomWidth: 1, borderBottomColor: '#2a2a2a' }}>
             <View style={{ width: '40%', padding: 12, borderRightWidth: 1, borderRightColor: '#2a2a2a', justifyContent: 'center', boxSizing: 'border-box' as any }}>
@@ -1723,6 +1736,7 @@ export const ProducteurForm = React.forwardRef<any, ProducteurFormProps>(({
             </View>
           ))}
         </View>
+        </ScrollView>
 
         <Pressable 
           onPress={addDep}
@@ -1749,7 +1763,8 @@ export const ProducteurForm = React.forwardRef<any, ProducteurFormProps>(({
           <Text style={{ color: '#22c55e', fontSize: 14, fontWeight: 'bold' }}>Coût de la main d'œuvre</Text>
         </View>
 
-        <View style={{ width: '100%', borderWidth: 1, borderColor: '#2a2a2a', borderRadius: 0, overflow: 'hidden', boxSizing: 'border-box' as any, marginBottom: 16 }}>
+        <ScrollView horizontal showsHorizontalScrollIndicator={true} style={{ width: '100%', marginBottom: 16 }}>
+        <View style={{ minWidth: 800, borderWidth: 1, borderColor: '#2a2a2a', borderRadius: 0, overflow: 'hidden', boxSizing: 'border-box' as any }}>
           
           {/* Header */}
           <View style={{ flexDirection: 'row', backgroundColor: '#000', borderBottomWidth: 1, borderBottomColor: '#2a2a2a' }}>
@@ -1860,6 +1875,7 @@ export const ProducteurForm = React.forwardRef<any, ProducteurFormProps>(({
             </View>
           ))}
         </View>
+        </ScrollView>
 
         <Pressable 
           onPress={addMo}
@@ -1916,7 +1932,8 @@ export const ProducteurForm = React.forwardRef<any, ProducteurFormProps>(({
           <Text style={{color: '#3b82f6'}}>◆</Text> FICHE 5 : ANALYSE DES PROBLEMES
         </Text>
 
-        <View style={{ width: '100%', backgroundColor: '#0a0a0a', borderWidth: 1, borderColor: '#2a2a2a', borderRadius: 0, overflow: 'hidden', boxSizing: 'border-box' as any }}>
+        <ScrollView horizontal showsHorizontalScrollIndicator={true} style={{ width: '100%' }}>
+        <View style={{ minWidth: 900, backgroundColor: '#0a0a0a', borderWidth: 1, borderColor: '#2a2a2a', borderRadius: 0, overflow: 'hidden', boxSizing: 'border-box' as any }}>
           {/* Header */}
           <View style={{ flexDirection: 'row', backgroundColor: '#000', borderBottomWidth: 1, borderBottomColor: '#2a2a2a' }}>
             <View style={{ width: '22%', padding: 12, borderRightWidth: 1, borderRightColor: '#2a2a2a', justifyContent: 'center', boxSizing: 'border-box' as any }}>
@@ -2045,6 +2062,7 @@ export const ProducteurForm = React.forwardRef<any, ProducteurFormProps>(({
             </View>
           ))}
         </View>
+        </ScrollView>
       </View>
     );
   };
@@ -2161,7 +2179,8 @@ export const ProducteurForm = React.forwardRef<any, ProducteurFormProps>(({
             <Text style={{color: '#3b82f6'}}>◆</Text> {config.titreFiche}
           </Text>
 
-        <View style={{ width: '100%', backgroundColor: '#0a0a0a', borderWidth: 1, borderColor: '#2a2a2a', borderRadius: 0, overflow: 'visible', boxSizing: 'border-box' as any }}>
+        <ScrollView horizontal showsHorizontalScrollIndicator={true} style={{ width: '100%' }}>
+        <View style={{ minWidth: 1100, backgroundColor: '#0a0a0a', borderWidth: 1, borderColor: '#2a2a2a', borderRadius: 0, overflow: 'visible', boxSizing: 'border-box' as any }}>
           {/* Header */}
           <View style={{ flexDirection: 'row', backgroundColor: '#000', borderBottomWidth: 1, borderBottomColor: '#2a2a2a' }}>
             <View style={{ width: '20%', padding: 12, borderRightWidth: 1, borderRightColor: '#2a2a2a', justifyContent: 'center', boxSizing: 'border-box' as any }}>
@@ -2295,6 +2314,7 @@ export const ProducteurForm = React.forwardRef<any, ProducteurFormProps>(({
             </View>
           ))}
         </View>
+        </ScrollView>
 
         <View style={{ marginTop: 16, alignItems: 'flex-start' }}>
           <Pressable onPress={addAxe} style={({ pressed }) => [{ flexDirection: 'row', alignItems: 'center', backgroundColor: 'transparent', paddingVertical: 10, paddingHorizontal: 16, borderRadius: 8, borderWidth: 1, borderColor: '#22c55e' }, pressed && { opacity: 0.7 }]}>
@@ -2438,7 +2458,8 @@ export const ProducteurForm = React.forwardRef<any, ProducteurFormProps>(({
             <Text style={{color: '#3b82f6'}}>◆</Text> FICHE 8 : TABLEAU DE DETERMINATION DES MOYENS ET DES COUTS
           </Text>
 
-        <View style={{ width: '100%', backgroundColor: '#0a0a0a', borderWidth: 1, borderColor: '#2a2a2a', borderRadius: 0, boxSizing: 'border-box' as any }}>
+        <ScrollView horizontal showsHorizontalScrollIndicator={true} style={{ width: '100%' }}>
+        <View style={{ minWidth: 1100, backgroundColor: '#0a0a0a', borderWidth: 1, borderColor: '#2a2a2a', borderRadius: 0, boxSizing: 'border-box' as any }}>
           {/* Header row 1 */}
           <View style={{ flexDirection: 'row', backgroundColor: '#000', borderBottomWidth: 1, borderBottomColor: '#2a2a2a' }}>
             <View style={{ width: '18%', borderRightWidth: 1, borderRightColor: '#2a2a2a', justifyContent: 'center', boxSizing: 'border-box' as any }}>
@@ -2527,6 +2548,7 @@ export const ProducteurForm = React.forwardRef<any, ProducteurFormProps>(({
             </View>
           ))}
         </View>
+        </ScrollView>
 
         <View style={{ marginTop: 16, alignItems: 'flex-start' }}>
           <Pressable onPress={addGroup} style={({ pressed }) => [{ flexDirection: 'row', alignItems: 'center', backgroundColor: 'transparent', paddingVertical: 10, paddingHorizontal: 16, borderRadius: 8, borderWidth: 1, borderColor: '#22c55e' }, pressed && { opacity: 0.7 }]}>
@@ -2549,20 +2571,27 @@ export const ProducteurForm = React.forwardRef<any, ProducteurFormProps>(({
       {/* HEADER */}
       {mode !== 'pdc' && (
         <View style={styles.mainHeader}>
-          <View>
+          {onCancel && (
+            <Pressable onPress={onCancel} style={{ marginRight: spacing.sm, padding: spacing.xs }}>
+              <ChevronLeft size={24} color="#fff" />
+            </Pressable>
+          )}
+          <View style={{ flex: 1, paddingRight: spacing.sm }}>
             <Text style={styles.mainHeaderTitle}>Fiche PDC</Text>
             <View style={{ flexDirection: 'row', alignItems: 'center', marginTop: 4 }}>
-              <Star size={16} color="#fbbf24" fill="#fbbf24" style={{ marginRight: 6 }} />
-              <Text style={styles.mainHeaderSubtitle}>{data.nom || 'Nouveau Producteur'}</Text>
+              {(data.nom?.includes('[DEMO]') || data.nom?.includes('⭐')) && (
+                <Text style={{ fontSize: 13, marginRight: 6 }}>⭐</Text>
+              )}
+              <Text style={styles.mainHeaderSubtitle} numberOfLines={1}>{data.nom ? data.nom.replace('⭐ ', '').replace('⭐', '').trim() : 'Nouveau Producteur'}</Text>
             </View>
           </View>
           <Button 
-            title="Enregistrer" 
+            title={Dimensions.get('window').width < 400 ? "Enreg." : "Enregistrer"} 
             variant="secondary" 
             icon={<Save size={18} color="#fff" />} 
             onPress={handleSubmit} 
             disabled={isSubmitting}
-            style={{ backgroundColor: 'rgba(255,255,255,0.1)' }}
+            style={{ backgroundColor: 'rgba(255,255,255,0.1)', paddingHorizontal: spacing.sm }}
           />
         </View>
       )}
@@ -2611,8 +2640,9 @@ export const ProducteurForm = React.forwardRef<any, ProducteurFormProps>(({
                   {sec.icon && <sec.icon size={16} color={isActive ? colors.primaryLight : colors.textSecondary} style={{ marginRight: 8 }} />}
                   <Text style={[
                     styles.tabText,
-                    isActive && styles.tabTextActive
-                  ]}>
+                    isActive && styles.tabTextActive,
+                    { maxWidth: Dimensions.get('window').width < 768 ? 160 : 'auto' }
+                  ]} numberOfLines={1}>
                     {mode === 'pdc' ? sec.label : (sec.displayId ? `Fiche ${sec.displayId} - ${sec.label}` : `Fiche ${sec.id} - ${sec.label}`)}
                     {mode === 'pdc' && <Text style={{ color: isComplete ? '#22c55e' : '#fbbf24', fontSize: 10 }}>{completionLabel}</Text>}
                   </Text>
@@ -2682,7 +2712,7 @@ const getStyles = (colors: any) => StyleSheet.create({
     textTransform: 'uppercase',
   },
     tabsContainerWrapper: {
-    marginHorizontal: spacing.xl,
+    marginHorizontal: Platform.OS === 'web' && Dimensions.get('window').width > 768 ? spacing.xl : spacing.sm,
     marginTop: spacing.md,
     marginBottom: spacing.lg,
   },
@@ -2695,6 +2725,7 @@ const getStyles = (colors: any) => StyleSheet.create({
     paddingHorizontal: spacing.sm,
   },
   tabsScrollContent: {
+    flexDirection: 'row',
     alignItems: 'center',
     gap: spacing.xs,
   },
@@ -2921,7 +2952,7 @@ const getStyles = (colors: any) => StyleSheet.create({
     gap: spacing.sm,
   },
   gridRow: {
-    flexDirection: Platform.OS === 'web' ? 'row' : 'column',
+    flexDirection: Platform.OS === 'web' && Dimensions.get('window').width > 768 ? 'row' : 'column',
     gap: spacing.sm,
   },
   gridCol: {

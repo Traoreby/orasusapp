@@ -280,9 +280,9 @@ const styles = StyleSheet.create({
   code: { fontSize: typography.sizes.xs, fontFamily: Platform.OS === 'ios' ? 'Menlo' : 'monospace', marginBottom: spacing.sm },
   detailsRow: { flexDirection: 'row', gap: spacing.md },
   detailText: { fontSize: typography.sizes.xs },
-  actions: { flexDirection: 'row', borderTopWidth: 1, padding: spacing.sm, justifyContent: 'flex-end', gap: spacing.sm },
-  actionBtn: { height: 32, paddingHorizontal: spacing.sm },
-  actionBtnText: { fontSize: typography.sizes.xs },
+  actions: { flexDirection: 'row', flexWrap: 'wrap', borderTopWidth: 1, padding: spacing.sm, justifyContent: 'flex-start', gap: spacing.sm },
+  actionBtn: { height: 32, paddingHorizontal: spacing.xs, flex: 1, minWidth: 90 },
+  actionBtnText: { fontSize: 11, textAlign: 'center' },
 
   // ── Large screen table row ───────────────────────────────────────────────────
   tableRow: {

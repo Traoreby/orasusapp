@@ -208,7 +208,8 @@ export default function RapportsScreen() {
         <Text style={[styles.listTitle, { marginTop: spacing.xl, borderTopWidth: 1, borderTopColor: colors.border, paddingTop: spacing.xl }]}>Annexe — Détail par producteur ({Math.min(filtered.length, 100)} premiers)</Text>
         
         {filtered.length > 0 ? (
-          <View style={styles.table}>
+          <ScrollView horizontal showsHorizontalScrollIndicator={true} style={{ marginTop: spacing.md }}>
+          <View style={[styles.table, { minWidth: 800 }]}>
             <View style={styles.tableHeader}>
               <Text style={[styles.th, { flex: 2 }]}>Nom</Text>
               <Text style={[styles.th, { flex: 1.5 }]}>Région</Text>
@@ -232,6 +233,7 @@ export default function RapportsScreen() {
               );
             })}
           </View>
+          </ScrollView>
         ) : (
           <Text style={styles.emptyText}>Aucun producteur ne correspond à ces filtres.</Text>
         )}
@@ -307,7 +309,7 @@ const getStyles = (colors: any) => StyleSheet.create({
   reportTitle: { fontSize: typography.sizes.xl, fontWeight: typography.weights.bold, color: colors.text, textAlign: 'center' },
   reportSubtitle: { fontSize: typography.sizes.sm, color: colors.textSecondary, marginTop: spacing.sm },
   statsGrid: { flexDirection: 'row', flexWrap: 'wrap', gap: spacing.md, marginBottom: spacing.xl },
-  statBox: { flex: 1, minWidth: '30%', padding: spacing.md, borderRadius: radius.lg },
+  statBox: { flex: 1, minWidth: 150, padding: spacing.md, borderRadius: radius.lg },
   statLabel: { fontSize: typography.sizes.xs, color: colors.textSecondary, textTransform: 'uppercase', marginBottom: spacing.xs },
   statValue: { fontSize: typography.sizes.xl, fontWeight: typography.weights.bold },
   listTitle: { fontSize: typography.sizes.md, fontWeight: typography.weights.bold, color: colors.text, marginBottom: spacing.md },

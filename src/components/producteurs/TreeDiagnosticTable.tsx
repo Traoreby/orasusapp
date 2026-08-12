@@ -1,5 +1,5 @@
 import React from 'react';
-import { View, Text, Pressable, Platform, StyleSheet } from 'react-native';
+import { View, Text, Pressable, Platform, StyleSheet, ScrollView } from 'react-native';
 import { TextInput } from '../ui';
 import { Trash2 } from 'lucide-react-native';
 import { colors, spacing, radius, typography } from '../../theme';
@@ -39,8 +39,8 @@ export default function TreeDiagnosticTable({ arbres, updateNested }: TreeDiagno
         <View style={styles.sousSectionHeaderRow}>
           <Text style={styles.sousSectionTitle}>◆ Diagnostic des arbres autres que le cacaoyer sur l'exploitation</Text>
         </View>
-        <div style={{ width: '100%', overflowX: 'hidden' }}>
-          <table style={{ width: '100%', borderCollapse: 'collapse', borderSpacing: 0, tableLayout: 'fixed', backgroundColor: '#000', color: '#fff' }}>
+        <div style={{ width: '100%', overflowX: 'auto' }}>
+          <table style={{ minWidth: 900, width: '100%', borderCollapse: 'collapse', borderSpacing: 0, tableLayout: 'fixed', backgroundColor: '#000', color: '#fff' }}>
             <thead>
               <tr>
                 <th rowSpan={2} style={{ border: '1px solid #303030', boxSizing: 'border-box', width: 40, padding: 4, fontSize: 12, textAlign: 'center', backgroundColor: '#000' }}>N°<br/>arbre</th>
@@ -121,8 +121,8 @@ export default function TreeDiagnosticTable({ arbres, updateNested }: TreeDiagno
           <View style={styles.sousSectionHeaderRow}>
             <Text style={styles.sousSectionTitle}>◆ Diagnostic des arbres autres que le cacaoyer sur l'exploitation</Text>
           </View>
-          <View style={[styles.tableScroll, { width: "100%" }]}>
-            <View style={[styles.tableContainer, { flexDirection: 'column', width: '100%', backgroundColor: '#000', borderColor: '#2f2f2f', borderWidth: 1, borderRadius: 8, overflow: 'hidden' }]}>
+          <ScrollView horizontal showsHorizontalScrollIndicator={true} style={styles.tableScroll}>
+            <View style={[styles.tableContainer, { minWidth: 900, flexDirection: 'column', backgroundColor: '#000', borderColor: '#2f2f2f', borderWidth: 1, borderRadius: 8, overflow: 'hidden' }]}>
               {/* Header */}
               <View style={[styles.tableHeader, rowBorder, { width: '100%', backgroundColor: '#000', borderBottomColor: '#2f2f2f' }]}>
                 <View style={{ flexDirection: 'row', width: '100%' }}>
@@ -216,7 +216,7 @@ export default function TreeDiagnosticTable({ arbres, updateNested }: TreeDiagno
                 </View>
               ))}
             </View>
-          </View>
+          </ScrollView>
           <Pressable 
             onPress={() => updateNested('diagnosticArbres', [...arbres, { id: `arb_${Date.now()}`, nomBotanique: '', nomLocal: '', circonference: '', origine: '', organe: '', utilite: '', decision: '', raisons: '' }])}
             style={({ pressed }) => [styles.addMemberBtn, pressed && { backgroundColor: 'rgba(34, 197, 94, 0.1)' }]}
