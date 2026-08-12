@@ -144,7 +144,7 @@ export function ProducteurCard({ producteur, onDelete, isLargeScreen = false }: 
         [0, 1],
         ['transparent', colors.surface]
       ),
-    }));
+    }), [colors]);
 
     return (
       <>
@@ -212,7 +212,7 @@ export function ProducteurCard({ producteur, onDelete, isLargeScreen = false }: 
   // ── Mobile: card layout ───────────────────────────────────────────────────
   const animatedContentStyle = useAnimatedStyle(() => ({
     transform: [{ scale: scaleAnim.value }]
-  }));
+  }), []);
 
   return (
     <>

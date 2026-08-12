@@ -39,7 +39,7 @@ function ZoneBox({ region, count, production, superficie }: any) {
         ['rgba(41, 37, 36, 0.5)', 'rgba(41, 37, 36, 0.8)']
       )
     };
-  });
+  }, []);
 
   return (
     <AnimatedPressable 

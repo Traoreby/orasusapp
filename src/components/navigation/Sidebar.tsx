@@ -44,7 +44,7 @@ function NavItem({ item, isActive, onPress }: { item: typeof NAV_ITEMS[0], isAct
         ? 'rgba(22, 163, 74, 0.2)' 
         : interpolateColor(hoverAnim.value, [0, 1], ['transparent', colors.surface])
     };
-  });
+  }, [isActive, colors]);
 
   return (
     <AnimatedPressable

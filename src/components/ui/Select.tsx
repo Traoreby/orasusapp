@@ -56,7 +56,7 @@ export const Select = React.forwardRef<any, SelectProps>(({
       ),
       backgroundColor: colors.surfaceLight,
     };
-  });
+  }, [error, colors]);
 
   if (Platform.OS === 'web') {
     return (

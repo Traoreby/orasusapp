@@ -20,7 +20,7 @@ export function Card({ children, variant = 'default', style, onPress, ...props }
       { scale: scale.value },
       { translateY: translateY.value }
     ]
-  }));
+  }), []);
 
   const handlePressIn = () => { if (onPress) scale.value = withSpring(0.98, { damping: 15, stiffness: 300 }); };
   const handlePressOut = () => { if (onPress) scale.value = withSpring(1, { damping: 15, stiffness: 300 }); };

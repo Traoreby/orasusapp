@@ -30,7 +30,7 @@ export function ProgressBar({ label, percent, progress, valueText, color, style 
     return {
       width: `${animatedProgress.value}%`,
     };
-  });
+  }, []);
 
   return (
     <View style={[styles.container, style]}>

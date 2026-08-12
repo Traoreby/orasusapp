@@ -58,10 +58,10 @@ export const TextInput = React.forwardRef<any, TextInputProps>(({
       backgroundColor: interpolateColor(
         focusAnim.value,
         [0, 1],
-        [colors.surfaceLight, colors.surfaceLight]
-      )
+        [colors.surfaceLight, colors.surface]
+      ),
     };
-  });
+  }, [error, colors]);
 
   return (
     <View style={[{ marginBottom: spacing.md, width: '100%' }, compact && { marginBottom: 0 }]}>

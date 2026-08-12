@@ -74,7 +74,7 @@ export function Button({
   const animatedStyle = useAnimatedStyle(() => ({
     transform: [{ scale: scale.value }],
     opacity: disabled || loading ? 0.6 : opacity.value,
-  }));
+  }), [disabled, loading]);
 
   const getTextStyle = (): TextStyle => {
     switch (variant) {
