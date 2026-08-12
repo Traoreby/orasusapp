@@ -12,12 +12,8 @@ export default function RootLayout() {
   const styles = React.useMemo(() => getStyles(colors), [colors]);
 
   const initStore = useProducteurStore(s => s.initStore);
-
   const { width } = useWindowDimensions();
   const isWebLarge = Platform.OS === 'web' && width > 768;
-
-  const pathname = usePathname();
-  const isProducteurScreen = pathname.includes('/producteur/');
 
   useEffect(() => {
     initStore();
@@ -26,11 +22,6 @@ export default function RootLayout() {
   return (
     <View style={[styles.container, isWebLarge ? styles.row : styles.column]}>
       {isWebLarge && <Sidebar />}
-      {!isWebLarge && !isProducteurScreen && (
-        <View style={[styles.mobileHeader, { backgroundColor: colors.surface, borderBottomColor: colors.border }]}>
-          <Text style={[styles.mobileHeaderTitle, { color: colors.primary }]}>CacaoGest</Text>
-        </View>
-      )}
       <View style={styles.mainContent}>
         <Stack>
           <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
